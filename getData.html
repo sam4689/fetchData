@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ricky and Morty Characters</title>
+    <style>
+        .cont{
+            display: flex;
+            justify-content:space-evenly;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .card{
+            border: 3px solid black;
+            box-shadow: 2px 2px 8px 1px black;
+        }    
+    </style>
+</head>
+<body>
+    <h1>Ricky and Morty Characters</h1><hr>
+    <div class="cont"></div>
+    <script>
+        const fetchDetails = async()=>{
+            try{
+                let response = await fetch('https://rickandmortyapi.com/api/character');
+                let data = await response.json();
+                return data.results;
+             }
+             catch(error){
+                console.log(error);
+             }
+        }
+        const renderCharacters = async() =>{
+            let container = document.querySelector('.cont')
+            let details = await fetchDetails();
+            console.log(details)
+            details.forEach(el =>{
+                let card = document.createElement('div');
+                let poke = document.createElement('h3');
+                let img = document.createElement('img');
+                card.classList.add("card")
+                poke.innerHTML = `Name: ${el.name}`;
+                img.src = el.image;
+                card.appendChild(img);
+                card.appendChild(poke);
+                container.appendChild(card)
+            })
+            if(!details){
+                return;
+            }
+        }
+        renderCharacters();
+    </script>   
+</body>
+</html>
